@@ -202,13 +202,14 @@ uchar get_command(void) {
 void MT9M031_test_pattern_Mode(void) {
 	uchar test_pattern_mode_h, test_pattern_mode_l;
 
-	printf("input test_pattern_mode_h): \n");
+	printf("Set test pattern mode reg 0x3070h): \n");
+	printf("Input test_pattern_mode_h): \n");
 	printf("\t 0 = No test pattern (normal operation).\n");
 	printf("\t 1 = Walking 1s test pattern (12-bit).\n");
 	printf("input: ");
 	test_pattern_mode_h = get_command() & 0x03;
 
-	printf("input test_pattern_mode_l): \n");
+	printf("Input test_pattern_mode_l): \n");
 	printf("\t 0 = No test pattern (normal operation).\n");
 	printf("\t 1 = Solid color test pattern.\n");
 	printf("\t 2 = 100 percent color bar test pattern.\n");
