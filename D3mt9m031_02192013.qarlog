@@ -1,0 +1,78 @@
+Quartus II Archive log --	D:/WKF/LY/eelay/D3/software/d3mt9m031/D3mt9m031_02192013.qarlog
+
+Archive:	D:/WKF/LY/eelay/D3/software/d3mt9m031/D3mt9m031_02192013.qar
+Date:		Tue Feb 19 10:35:34 2013
+Quartus II 32-bit		12.0 Build 178 05/31/2012 SJ Full Version
+
+	=========== Files Selected: ===========
+D:/WKF/LY/eelay/D3/software/d3mt9m031/ClockedPIO.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/ClockedPIO_0.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/ClockedPIO_hw.tcl
+D:/WKF/LY/eelay/D3/software/d3mt9m031/D3mt9m031.qpf
+D:/WKF/LY/eelay/D3/software/d3mt9m031/DMAtest.bsf
+D:/WKF/LY/eelay/D3/software/d3mt9m031/Div.bsf
+D:/WKF/LY/eelay/D3/software/d3mt9m031/Div.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/Edge_Detector.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/KERNEL.qip
+D:/WKF/LY/eelay/D3/software/d3mt9m031/KERNEL.sopc
+D:/WKF/LY/eelay/D3/software/d3mt9m031/KERNEL.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/LVC245_DIR.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/LVC245_OE.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/NIOS.bdf
+D:/WKF/LY/eelay/D3/software/d3mt9m031/NIOS.qsf
+D:/WKF/LY/eelay/D3/software/d3mt9m031/NIOS.vwf
+D:/WKF/LY/eelay/D3/software/d3mt9m031/NIOS_assignment_defaults.qdf
+D:/WKF/LY/eelay/D3/software/d3mt9m031/PLL.bsf
+D:/WKF/LY/eelay/D3/software/d3mt9m031/PLL.ppf
+D:/WKF/LY/eelay/D3/software/d3mt9m031/PLL.qip
+D:/WKF/LY/eelay/D3/software/d3mt9m031/PLL.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/PLL_bb.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/PLL_inst.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/SCCB.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/SCL.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/SDA.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/StreamControl.bsf
+D:/WKF/LY/eelay/D3/software/d3mt9m031/StreamControl.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/TFT_CS.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/TFT_DATA.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/TFT_RD.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/TFT_REST.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/TFT_RS.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/TFT_WR.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/Tcl_script1.tcl
+D:/WKF/LY/eelay/D3/software/d3mt9m031/Trigger.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/cpu_0.ocp
+D:/WKF/LY/eelay/D3/software/d3mt9m031/cpu_0.sdc
+D:/WKF/LY/eelay/D3/software/d3mt9m031/cpu_0.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/cpu_0_bht_ram.mif
+D:/WKF/LY/eelay/D3/software/d3mt9m031/cpu_0_ic_tag_ram.mif
+D:/WKF/LY/eelay/D3/software/d3mt9m031/cpu_0_jtag_debug_module_sysclk.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/cpu_0_jtag_debug_module_tck.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/cpu_0_jtag_debug_module_wrapper.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/cpu_0_mult_cell.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/cpu_0_oci_test_bench.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/cpu_0_ociram_default_contents.mif
+D:/WKF/LY/eelay/D3/software/d3mt9m031/cpu_0_rf_ram_a.mif
+D:/WKF/LY/eelay/D3/software/d3mt9m031/cpu_0_rf_ram_b.mif
+D:/WKF/LY/eelay/D3/software/d3mt9m031/cpu_0_test_bench.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/db/NIOS.sim.cvwf
+D:/WKF/LY/eelay/D3/software/d3mt9m031/dma_0.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/epcs_flash_controller_0.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/epcs_flash_controller_0_boot_rom_synth.hex
+D:/WKF/LY/eelay/D3/software/d3mt9m031/incremental_db/compiled_partitions/NIOS.db_info
+D:/WKF/LY/eelay/D3/software/d3mt9m031/jtag_uart_0.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/mt9m031_d_lsb.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/mt9m031_flash.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/mt9m031_oen.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/mt9m031_resetn.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/mt9m031_shutter.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/mt9m031_standby.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/sdram_0.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/sopc_add_qip_file.tcl
+D:/WKF/LY/eelay/D3/software/d3mt9m031/stp1.stp
+D:/WKF/LY/eelay/D3/software/d3mt9m031/sysid.v
+D:/WKF/LY/eelay/D3/software/d3mt9m031/unnamed.qip
+	======= Total: 67 files to archive =======
+
+	================ Status: ===============
+All files archived successfully.
