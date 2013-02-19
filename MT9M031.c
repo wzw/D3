@@ -11,7 +11,7 @@ V1.00 20130117
 /*[MT9M031 full size 45fps setting 24M input, 74.25output 20120227] */
 
 /* sensor reset,HW or SW */
-uchar MT0M031_reset_reg[1][5]=
+uchar MT9M031_reset_reg[1][5]=
 {
                         //dealy=200
     {0x30, 0x1A, 2, 0x00, 0xD9}    //REG= 0x301A, 0x00D9 	// RESET_REGISTER
@@ -327,7 +327,7 @@ uchar rdMT9M031Reg(uchar regID_h, uchar regID_l, uchar length, uchar *regDat_h, 
 
 //(140,16,640,480) is good for VGA
 //(272,16,320,240) is good for QVGA
-/* config_MT0M031_window */
+/* config_MT9M031_window */
 void MT9M031_config_window(uint startx, uint starty,uint width, uint height)
 {
 	uint endx;
@@ -459,23 +459,35 @@ uchar MT9M031_test_pattern_setting(void)
 	return 0;                       //reset ok.
 }
 
-//Function: MT0M031_trigger
-//return: none
-void MT0M031_trigger(void)
+//Function: MT9M031_trigger
+//return: 0=success; 1=fail
+uchar MT9M031_trigger(void)
 {
+    uchar gpi_status_h, gpi_status_l;
+    uint ii;
+
+    gpi_status_h = 0;
+    gpi_status_l = 0;
+    if(rdMT9M031Reg(0x30, 0x1A, 2, &gpi_status_h, &gpi_status_l)) return 1;
+    printf("reset reg = 0x%02X%02X\n", gpi_status_h, gpi_status_l);
     IOWR_ALTERA_AVALON_PIO_DATA(MT9M031_SHUTTER_BASE,1);
-    usleep(500);
+    for(ii=0x0100; ii>0; ii--);
+	if(rdMT9M031Reg(0x30, 0x26, 2, &gpi_status_h, &gpi_status_l)) return 1;
+    printf("gpi_status = 0x%02X%02X\n", gpi_status_h, gpi_status_l);
     IOWR_ALTERA_AVALON_PIO_DATA(MT9M031_SHUTTER_BASE,0);
+	if(rdMT9M031Reg(0x30, 0x26, 2, &gpi_status_h, &gpi_status_l)) return 1;
+    printf("gpi_status = 0x%02X%02X\n", gpi_status_h, gpi_status_l);
+    return 0;
 }
 
-//Function: MT0M031_init
+//Function: MT9M031_init
 //return: 0=success; 1=fail
 uchar MT9M031_init(void)
 {
     uchar chip_version_reg_h, chip_version_reg_l;
     uchar revision;
     
-    printf("Start init MT0M031\n");
+    printf("Start init MT9M031\n");
 
     IOWR_ALTERA_AVALON_PIO_DATA(MT9M031_RESETN_BASE,0);
 	delay_ms(200);
@@ -519,7 +531,7 @@ uchar MT9M031_init(void)
 	if(MT9M031_other_setting()) return 1;
 	if(MT9M031_test_pattern_setting()) return 1;
   
-    printf("MT0M031 Init OK!\n");
+    printf("MT9M031 Init OK!\n");
 	return 0;                       //ok
 } 
 

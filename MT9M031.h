@@ -1,5 +1,5 @@
-#ifndef _MT0M031_H
-#define _MT0M031_H
+#ifndef _MT9M031_H
+#define _MT9M031_H
 
 #include "system.h"
 #include "VARIABLE.h"
@@ -15,7 +15,7 @@ uchar wrMT9M031Reg(uchar regID_h, uchar regID_l, uchar length, uchar regDat_h, u
 uchar rdMT9M031Reg(uchar regID_h, uchar regID_l, uchar length, uchar *regDat_h, uchar *regDat_l);
 void MT9M031_config_window(uint startx, uint starty,uint width, uint height);
 uchar MT9M031_reset(void);
-void MT0M031_trigger(void);
+uchar MT9M031_trigger(void);
 uchar MT9M031_init(void);
 
 #endif 

@@ -40,8 +40,8 @@ typedef struct {
 } DMA;
 #define DMA_0 ((DMA*)DMA_0_BASE)
 
-#define DMADES  ((uchar *)(&MT0M031_image[0]))
-#define BYTENUM    1228799          //153599
+#define DMADES  ((uchar *)(&MT9M031_image[0]))
+#define BYTENUM    1280*960-1          //153599
 //153600
 
 #define TRIGGER_SET()  TRIGGER_PTR->OUTSET|=0x01
@@ -51,7 +51,7 @@ typedef struct {
 uint x_offset; /*0-1279*/
 uint y_offset; /*0-959*/
 uint factor;
-uchar MT0M031_image[1228800/*153600*/];
+uchar MT9M031_image[1228800/*153600*/];
 
 //
 /**********************************
@@ -132,12 +132,65 @@ uint get_number(void) {
 /**********************************
  function:
  input: void
- output void
+ output: 0=success; 1=fail
+  */
+uchar MT9M031_get_frame(uchar * DMAdes_base) {
+    uint ii;
+
+    ii = 0;
+	while ((DMA_0->status & 0x02) && !(DMA_0->status & 0x01)){
+//    	delay_ms(1);
+        ii++;
+        if(ii > 0x00100000){
+            printf("!!Error DMA timeout.");
+            return 1;
+        }
+    }
+	return 0;
+}
+
+/**********************************
+ function: MT9M031_trigger_mode_set
+ input: uchar regID_h,      reg address high 
+        uchar regID_l,      reg address low
+        uchar length,       reg data width(bytes)
+        uchar regDat_h,     reg data high(or reg data)
+        uchar regDat_l      reg data low (or no)
+ output: 0=success; 1=fail
  */
-void MT9M031_get_frame(uchar * DMAdes_base) {
-	DMA_init(DMAdes_base);
-	while ((DMA_0->status & 0x02) && !(DMA_0->status & 0x01))
-		;
+uchar MT9M031_write_reg(uchar regID_h, uchar regID_l, uchar length, uchar regDat_h, uchar regDat_l)
+{
+    uchar ii=16;
+    
+    while(wrMT9M031Reg(regID_h, regID_l, length, regDat_h, regDat_l))
+    {
+        ii--;
+        if(!ii) {
+            printf("!!Error write MT9M031 reg\n");
+            return 1;
+        }
+    }
+    return 0;
+}
+
+/**********************************
+ function: MT9M031_trigger_mode_set
+ input: void
+ output: 0=success; 1=fail
+ */
+uchar MT9M031_trigger_mode_set(void)
+{
+	return(MT9M031_write_reg(0x30, 0x1A, 2, 0x19, 0xD8));
+}
+
+/**********************************
+ function: MT9M031_master_mode_set
+ input: void
+ output: 0=success; 1=fail
+ */
+uchar MT9M031_master_mode_set(void)
+{
+	return(MT9M031_write_reg(0x30, 0x1A, 2, 0x19, 0xDC));
 }
 
 /**********************************
@@ -149,23 +202,46 @@ void MT9M031_Master_Mode(void) {
 	uint ii, count;
 	uchar * DMAdes_base;
 
-	DMAdes_base = (uchar*) DMADES;
+    if(MT9M031_master_mode_set()) {
+        printf("!!Error enter MT9M031_master_mode \n");
+        return;
+    }
+    DMAdes_base = (uchar*) DMADES;
 	printf("MT9M031_Master_Mode(Continue running.)\n");
 	count = get_number();
 	if (!count)
 		count = count - 1;
 
 	for (ii = 0; ii < count; ii++) {
-		MT9M031_get_frame(DMAdes_base);
+    	DMA_init(DMAdes_base);
+		if(MT9M031_get_frame(DMAdes_base)) return;
 		Display_frame(DMAdes_base, x_offset, y_offset, factor);
 		printf("%d ", ii);
 	}
 	printf("\n MT9M031_Master_Mode stop.\n");
 }
 
-void MT0M031_trigger_mode(void) {
-	printf("MT0M031_trigger_Mode.\n");
-	MT0M031_trigger();
+void MT9M031_trigger_mode(void) {
+	uchar * DMAdes_base;
+
+	printf("MT9M031_trigger_Mode.\n");
+    if(MT9M031_trigger_mode_set()) {
+        printf("!!Error enter MT9M031_trigger_mode \n");
+        return;
+    }
+	delay_ms(500);
+    DMAdes_base = (uchar*) DMADES;
+	DMA_init(DMAdes_base);
+	if(MT9M031_trigger()) {
+    	printf("!!Error MT9M031_trigger.\n");
+        return;
+    }
+	if(MT9M031_get_frame(DMAdes_base)){
+        MT9M031_trigger();
+        if(MT9M031_get_frame(DMAdes_base))return;
+    }
+	Display_frame(DMAdes_base, x_offset, y_offset, factor);
+	printf("MT9M031_trigger_mode stop.\n");
 }
 
 /**********************************
@@ -173,7 +249,8 @@ void MT0M031_trigger_mode(void) {
  input: void
  output void
  */
-void MT0M031_exposure(void) {
+void MT9M031_exposure(void) {
+	printf("MT9M031_exposure.\n");
 }
 
 /**********************************
@@ -232,11 +309,14 @@ void help(void) {
 	printf("-----------------------------------------------\n");
 	printf("MT9M031 test command: \n");
 	printf("  0 -- MT9M031_Master_Mode(Continue running.)\n");
-	printf("  1 -- Exposure\n");
-	printf("  2 -- \n");
+	printf("  1 -- MT9M031_trigger_mode(Run 1 time)\n");
+	printf("  2 -- Exposure\n");
+	printf("  3 -- \n");
+	printf("  4 -- \n");
+	printf("  5 -- \n");
 	printf("  9 -- MT9M031_test_pattern_Mode.\n");
-	printf("  o -- LCD_display_option.\n");
 	printf("  h -- help\n");
+	printf("  o -- LCD_display_option.\n");
 	printf("-----------------------------------------------\n");
 	printf("input command(h for help): ");
 }
@@ -298,7 +378,7 @@ int main() {
 	LCD_WriteRAM_Prepare();
 	LCD_Clear(BLUE); //全屏显示蓝色
 	POINT_COLOR = RED;
-	LCD_ShowString(30, 50, "FPGA TFT MT0M031 Ver 5 ^_^ ");
+	LCD_ShowString(30, 50, "FPGA TFT MT9M031 Ver 5 ^_^ ");
 	LCD_ShowString(30, 70, "MT9M031 DMA TFT TEST");
 	LCD_ShowString(30, 90, "wkf@eelay.com");
 	LCD_ShowString(30, 110, "2013/02/18");
@@ -317,9 +397,9 @@ int main() {
 	LCD_SetCursor(0, 0); //将坐标设置到0，0位置
 	LCD_WriteRAM_Prepare();
 
-	while (MT9M031_init())
-		;
-	IOWR_ALTERA_AVALON_PIO_DATA(MT9M031_SHUTTER_BASE,1);
+	while (MT9M031_init());
+    
+//	IOWR_ALTERA_AVALON_PIO_DATA(MT9M031_SHUTTER_BASE,1);
 
 	IOtest();
 
@@ -331,12 +411,16 @@ int main() {
 	while (1) {
 		command = get_command();
 		switch (command) {
+		case '0':
+			MT9M031_Master_Mode();
+			break;
+
 		case '1':
-			MT0M031_trigger_mode();
+			MT9M031_trigger_mode();
 			break;
 
 		case '2':
-			MT0M031_exposure();
+			MT9M031_exposure();
 			break;
 
 		case '3':
@@ -348,14 +432,6 @@ int main() {
 		case '5':
 			break;
 
-		case '0':
-			MT9M031_Master_Mode();
-			break;
-
-		case 'o':
-			LCD_display_option();
-			break;
-
 		case '9':
 			printf("MT9M031_test_pattern_Mode set. \n");
 			MT9M031_test_pattern_Mode();
@@ -364,7 +440,13 @@ int main() {
 		case 'h':
 			help();
 			break;
+
+		case 'o':
+			LCD_display_option();
+			break;
+
 		default:
+        	help();
 			break;
 		}
 	}
